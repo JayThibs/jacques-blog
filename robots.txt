@@ -1,1 +1,1 @@
-Sitemap: https://jaythibs.github.io/jacques-blog/sitemap.xml
+Sitemap: https://jacquesthibodeau.com/sitemap.xml
