@@ -34,7 +34,7 @@ url: "https://jacquesthibodeau.com" # the base hostname & protocol for your site
 #
 # 3. You must replace the parameter `baseurl` in _action_files/settings.ini with the same value as you set here but WITHOUT QUOTES.
 #
-baseurl: "" # the subpath of your site, e.g. "/blog".
+baseurl: "/blog" # the subpath of your site, e.g. "/blog".
 
 # Github and twitter are optional:
 minima:
@@ -52,7 +52,7 @@ show_description: true
 show_image: false
 
 # Set this to true to turn on annotations with hypothes.is (https://web.hypothes.is/)
-annotations: false
+annotations: true
 
 # Set this to true to display tags on each post
 show_tags: true
