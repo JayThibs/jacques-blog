@@ -1,1 +1,1 @@
-Sitemap: https://jacquesthibodeau.com/blog/sitemap.xml
+Sitemap: https://jacquesthibodeau.com/sitemap.xml
