@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How to use Hugging Face and PyTorch Lightning on SageMaker | Jacques Thibodeau</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="How to use Hugging Face and PyTorch Lightning on SageMaker" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn about building valuable AI solutions efficiently." />
+<meta property="og:description" content="Learn about building valuable AI solutions efficiently." />
+<link rel="canonical" href="https://jacquesthibodeau.com/mlops/huggingface/pytorchlightning/sagemaker/aws/2021/06/30/how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.html" />
+<meta property="og:url" content="https://jacquesthibodeau.com/mlops/huggingface/pytorchlightning/sagemaker/aws/2021/06/30/how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.html" />
+<meta property="og:site_name" content="Jacques Thibodeau" />
+<meta property="og:image" content="https://jacquesthibodeau.com/images/made-with-ml.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-06-30T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-06-30T00:00:00-05:00","url":"https://jacquesthibodeau.com/mlops/huggingface/pytorchlightning/sagemaker/aws/2021/06/30/how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.html","@type":"BlogPosting","image":"https://jacquesthibodeau.com/images/made-with-ml.png","headline":"How to use Hugging Face and PyTorch Lightning on SageMaker","dateModified":"2021-06-30T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jacquesthibodeau.com/mlops/huggingface/pytorchlightning/sagemaker/aws/2021/06/30/how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.html"},"description":"Learn about building valuable AI solutions efficiently.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jacquesthibodeau.com/feed.xml" title="Jacques Thibodeau" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YKD77Q10B0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YKD77Q10B0');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Jacques Thibodeau</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How to use Hugging Face and PyTorch Lightning on SageMaker</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-06-30T00:00:00-05:00" itemprop="datePublished">
+        Jun 30, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      2 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#mlops">mlops</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#huggingface">huggingface</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#pytorchlightning">pytorchlightning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#sagemaker">sagemaker</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#aws">aws</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/JayThibs/jacques-blog/tree/master/_notebooks/2021-06-30-how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/JayThibs/jacques-blog/master?filepath=_notebooks%2F2021-06-30-how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/JayThibs/jacques-blog/blob/master/_notebooks/2021-06-30-how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Understanding-Model-Deployment-on-SageMaker">Understanding Model Deployment on SageMaker </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Quick-Overview-of-SageMaker">Quick Overview of SageMaker </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-06-30-how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Understanding-Model-Deployment-on-SageMaker">
+<a class="anchor" href="#Understanding-Model-Deployment-on-SageMaker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Understanding Model Deployment on SageMaker<a class="anchor-link" href="#Understanding-Model-Deployment-on-SageMaker"> </a>
+</h1>
+<p>Before I dive into the nitty-gritty details of how to use Hugging Face and PyTorch Lightning in SageMaker, I'm going to give a general overview of SageMaker. In other words, <strong>if you only want to know how to use Hugging Face and PyTorch Lightning, skip this section.</strong></p>
+<h2 id="Quick-Overview-of-SageMaker">
+<a class="anchor" href="#Quick-Overview-of-SageMaker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Overview of SageMaker<a class="anchor-link" href="#Quick-Overview-of-SageMaker"> </a>
+</h2>
+<p>SageMaker allows AWS users to create a notebook instance in the cloud. SageMaker tries to make it easy for data scientists and machine learning engineers to train and deploy their machine learning models in production. Therefore, if you are comfortable using Jupyter Notebooks for data science, SageMaker will be great for you. However, there are some pros and cons.</p>
+<p>Pros:</p>
+<ul>
+<li>SageMaker has a great surrounding ecosystem that allows you to train, debug, and deploy your models, as well as my other useful tools for machine learning in production.</li>
+<li>It makes it easier to do some tests and sanity-checks when you are doing model development in the cloud.</li>
+<li>The SageMaker Python SDK makes it easy to do things like A/B tests. In other words, when you create or update an endpoint, you can easily split the traffic going to one endpoint across several models (and by different percentages/weights). You can easily change the endpoint configuration to switch to the best model over time.</li>
+<li>The SDK also makes it easy to load and unload models dynamically as needed (multi-model endpoints). If you use this in place of creating an endpoint for every model you put in production, you can save a heck of a lot of money. For example, if you have 1000 clients who all have a different model fine-tuned on their specific data, you can go from 171k to 1k US dollars per month!</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>AWS charges a premium for the usefulness of the notebook, and the surrounding infrastructure.</li>
+<li>Since you need to use the SageMaker Python SDK to run your code, your local notebooks need to be updated to run in SageMaker. That means, depending on the task, it may be preferable to simply put all your code in scripts, spin up an EC2 instance, and deploy with Docker.</li>
+</ul>
+<p>All-in-all, I would say that the best time to use SageMaker is when you are doing a lot of experimentation, you think notebooks will help you better explore the data, and you need to additional cloud compute resources.</p>
+<p>AWS also has a lot of sample notebooks for deployment, so it may be worth it to check them (particularly if you are planning to deploy similar models). Building on top of the work of others could also save you some time.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="JayThibs/jacques-blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/mlops/huggingface/pytorchlightning/sagemaker/aws/2021/06/30/how-to-use-huggingface-and-pytorch-lightning-on-sagemaker.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Learn about building valuable AI solutions efficiently.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/JayThibs" title="JayThibs"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/JacquesThibs" title="JacquesThibs"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
