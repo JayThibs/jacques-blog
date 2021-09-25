@@ -93,7 +93,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      4 min read
+      5 min read
     
 </span></p>
 
@@ -177,14 +177,15 @@ window.onload = wrap_img;
 <a class="anchor" href="#My-Initial-Look-Into-Elicit" aria-hidden="true"><span class="octicon octicon-link"></span></a>My Initial Look Into Elicit<a class="anchor-link" href="#My-Initial-Look-Into-Elicit"> </a>
 </h2>
 <p>For this blog post, I will focus on giving an overview of Elicit rather than going into the nitty-gritty. I'm not going to be too formal and will instead point to some of the things I find cool and just give my thoughts.</p>
-<p>Going back to AI for mental health, we can see here how Elicit is used to help do Positive Reframing of negative statements you tell it. The video below shows how they give Elicit prompts for Few-Shot Learning. If you simply ask GPT-3 a question without any prompts, we call it a "Zero-Shot" model. Once we give it one example (K=1), it becomes a "One-Shot" model. For more than one example (K=2+), we call it a "few-shot" model. Obviously, the more examples we give it, the more accurate it will be, but it can still give great results with very few examples.
+<p>Going back to AI for mental health, we can see here how Elicit is used to help do Positive Reframing of negative statements you tell it. The video below shows how they give Elicit prompts for Few-Shot Learning. If you simply ask GPT-3 a question without any prompts, we call it a "Zero-Shot" model. Once we give it one example (K=1), it becomes a "One-Shot" model. For more than one example (K=2+), we call it a "few-shot" model. Obviously, the more examples we give it, the more accurate it will be, but it can still give great results with very few examples. As we saw in the <a href="https://arxiv.org/abs/2005.14165">original GPT-3 paper</a>, as you increase K, GPT-3 can perform better than a model like BERT fine-tuned on a given task (scroll a bit to see a plot example from the paper). That is why it is useful to add examples in Elicit.
 
 </p>
 <center>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/watch?v=AIW5xM2VMaQ" frameborder="0" allowfullscreen=""></iframe>
 </center>
 
-As we saw in the original GPT-3 paper, as you increase K, GPT-3 can perform better than a fine-tuned BERT model on a given task.
+<p><img src="https://raw.githubusercontent.com/JayThibs/jacques-blog/master/images/gpt-3-vs-fine-tuned-sota-triviaqa.png" alt="gpt-3-vs-fine-tuned-sota-triviaqa.png"></p>
+<p>On TriviaQA GPT3’s performance grows smoothly with model size, suggesting that language models continue to absorb knowledge as their capacity increases. One-shot and few-shot performance make significant gains over zero-shot behavior, matching and exceeding the performance of the SOTA fine-tuned open-domain model, RAG.</p>
 <h3 id="Into-Forecasting?">
 <a class="anchor" href="#Into-Forecasting?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Into Forecasting?<a class="anchor-link" href="#Into-Forecasting?"> </a>
 </h3>
@@ -202,13 +203,6 @@ In the future, we can expect people will ask Elicit a question like, "Will we be
 <p>Having worked in government for the past 4 years, there's a lot of things that excite me about Elicit, things that I thought of building myself. I'm glad someone is building a tool like this.</p>
 <p>As they write on their website, I can see it being applied in government policy (Senators could become better at asking questions and could get caught up to speed on issues much more effectively than the current approach), but I can also see it working in strategic foresight teams like Horizons Canada or in regulatory bodies who have to dig into tons of PDFs to find the right information and make sure the company is compliant with the law.</p>
 <p>I will note that one of the things I am the most excited for is creating a second brain with a tool like Elicit. Sure we can use Roam Research to connect our thoughts and we can even load tons of text in Roam Research, but I think Semantic Search with Elicit could be much more powerful by simply having it point to or answer questions we have on a certain topic after loading 100k documents on that topic.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 
 </div>
 </div>
