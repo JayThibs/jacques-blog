@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Experimenting with Elicit (GPT-3) | Jacques Thibodeau</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Experimenting with Elicit (GPT-3)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn about building valuable AI solutions efficiently." />
+<meta property="og:description" content="Learn about building valuable AI solutions efficiently." />
+<link rel="canonical" href="https://jacquesthibodeau.com/gpt/elicit/ought/2021/09/24/experimenting-with-elicit.html" />
+<meta property="og:url" content="https://jacquesthibodeau.com/gpt/elicit/ought/2021/09/24/experimenting-with-elicit.html" />
+<meta property="og:site_name" content="Jacques Thibodeau" />
+<meta property="og:image" content="https://jacquesthibodeau.com/images/elicit-icon.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-24T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-24T00:00:00-05:00","url":"https://jacquesthibodeau.com/gpt/elicit/ought/2021/09/24/experimenting-with-elicit.html","@type":"BlogPosting","image":"https://jacquesthibodeau.com/images/elicit-icon.png","headline":"Experimenting with Elicit (GPT-3)","dateModified":"2021-09-24T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jacquesthibodeau.com/gpt/elicit/ought/2021/09/24/experimenting-with-elicit.html"},"description":"Learn about building valuable AI solutions efficiently.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jacquesthibodeau.com/feed.xml" title="Jacques Thibodeau" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YKD77Q10B0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YKD77Q10B0');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Jacques Thibodeau</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Experimenting with Elicit (GPT-3)</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-24T00:00:00-05:00" itemprop="datePublished">
+        Sep 24, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#gpt">gpt</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#elicit">elicit</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#ought">ought</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/JayThibs/jacques-blog/tree/master/_notebooks/2021-09-24-experimenting-with-elicit.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/JayThibs/jacques-blog/master?filepath=_notebooks%2F2021-09-24-experimenting-with-elicit.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/JayThibs/jacques-blog/blob/master/_notebooks/2021-09-24-experimenting-with-elicit.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#What-This-Post-Is-About">What This Post Is About </a></li>
+<li class="toc-entry toc-h1"><a href="#What-Excites-Me-About-Tools-Like-Elicit">What Excites Me About Tools Like Elicit </a></li>
+<li class="toc-entry toc-h1"><a href="#My-Initial-Deep-Dive-into-Elicit">My Initial Deep Dive into Elicit </a></li>
+<li class="toc-entry toc-h1"><a href="#Into-Forecasting?">Into Forecasting? </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Closing-Thoughts">Closing Thoughts </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-24-experimenting-with-elicit.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="What-This-Post-Is-About">
+<a class="anchor" href="#What-This-Post-Is-About" aria-hidden="true"><span class="octicon octicon-link"></span></a>What This Post Is About<a class="anchor-link" href="#What-This-Post-Is-About"> </a>
+</h1>
+<p>A few months ago, I gained access to a new exciting tool called <a href="https://elicit.org/">Elicit</a> from <a href="https://ought.org/">Ought</a>. Elicit is an AI research assistant that helps you answer questions "by making qualitative reasoning steps explicit and using language models to incrementally automate those steps."</p>
+<p>Using GPT-3 on the backend, Elicit is able to help with a wide range of research and brainstorming tasks. The team behind Elicit are focused on building tools that will help millions of people think through the types of questions we ask ourselves every day.</p>
+<p>You can watch <a href="https://www.youtube.com/channel/UCg5fl1Ht965Me_KuV84XFwg">Elicit screencasts</a> on YouTube to get a sense of all the things it can do. It really is impressive.</p>
+<h1 id="What-Excites-Me-About-Tools-Like-Elicit">
+<a class="anchor" href="#What-Excites-Me-About-Tools-Like-Elicit" aria-hidden="true"><span class="octicon octicon-link"></span></a>What Excites Me About Tools Like Elicit<a class="anchor-link" href="#What-Excites-Me-About-Tools-Like-Elicit"> </a>
+</h1>
+<p>Recent innovations in machine learning have helped us build models which are great at dealing with labeled data tasks, but how can we use these models to answer questions where we don't have a labeled dataset and are a bit more subjective? For example, could we have an AI where we can ask it questions like "How do I decide what career I should dedicate my life to?" or "My partner feels jealous about my career growth, what should I do?" It would really be amazing if we could have an AI that could answer these questions.</p>
+<p>I'm particularly excited about how AI will help make knowledge accessible to everyone in a way that will guide humanity towards a better future. Though still in its early stages, AI has started showing signs of having the potential to revolutionize education, research, and even therapy.</p>
+<p>One glimpse of this was in a Twitter thread where one of the employees at OpenAI said they used GPT-3 as a therapist and were able to achieve a deeper breakthrough than they had ever had with a human therapist. We're not at the point where our models can be taken out of the labs yet, but once our models become exceptional and robust, and we can make such fields unbelievably cheap, accessible, and compatible with human values, inequality of world-class services will likely change quickly.</p>
+<h1 id="My-Initial-Deep-Dive-into-Elicit">
+<a class="anchor" href="#My-Initial-Deep-Dive-into-Elicit" aria-hidden="true"><span class="octicon octicon-link"></span></a>My Initial Deep Dive into Elicit<a class="anchor-link" href="#My-Initial-Deep-Dive-into-Elicit"> </a>
+</h1>
+<h1 id="Into-Forecasting?">
+<a class="anchor" href="#Into-Forecasting?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Into Forecasting?<a class="anchor-link" href="#Into-Forecasting?"> </a>
+</h1>
+<p>Elicit has a feature called <a href="https://forecast.elicit.org/binary?binaryQuestions.sortBy=popularity&amp;limit=20&amp;offset=0&amp;predictors=community">Elicit Forecast</a> which is hidden from the main website, but they go into a bit of detail about how it works <a href="https://www.youtube.com/watch?v=eIxoj46UibY">here</a>. For any aspiring superforecaster out there, this could be a great tool.</p>
+<p>In the future, we can expect people will ask Elicit a question like, "Will we be able to finish project x on time?" and Elicit will give us its best guess. As time goes on, I'm sure a tool like Elicit will become an invaluable tool for not just forecasters, but also people like project managers who want to get a better idea on how long a project will actually take.</p>
+<h2 id="Closing-Thoughts">
+<a class="anchor" href="#Closing-Thoughts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Closing Thoughts<a class="anchor-link" href="#Closing-Thoughts"> </a>
+</h2>
+<p>Having worked in government for the past 4 years, there's a lot of things that excite me about Elicit, things that I thought of building myself. I'm glad someone is building a tool like this.</p>
+<p>As they write on their website, I can see it being applied in government policy (Senators could become better at asking questions and could get caught up to speed on issues much more effectively than the current approach), but I can also see it working in strategic foresight teams like Horizons Canada or in regulatory bodies who have to dig into tons of PDFs to find the right information and make sure the company is compliant with the law.</p>
+<p>I will note that one of the things I am the most excited for is creating a second brain with a tool like Elicit. Sure we can use Roam Research to connect our thoughts and we can even load tons of text in Roam Research, but I think Semantic Search with Elicit could be much more powerful by simply having it point to or answer questions we have on a certain topic after loading 100k documents on that topic.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="JayThibs/jacques-blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/gpt/elicit/ought/2021/09/24/experimenting-with-elicit.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Learn about building valuable AI solutions efficiently.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/JayThibs" title="JayThibs"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/JacquesThibs" title="JacquesThibs"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
