@@ -93,7 +93,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      5 min read
+      6 min read
     
 </span></p>
 
@@ -186,11 +186,15 @@ window.onload = wrap_img;
 
 <p><img src="https://raw.githubusercontent.com/JayThibs/jacques-blog/master/images/gpt-3-vs-fine-tuned-sota-triviaqa.png" alt="gpt-3-vs-fine-tuned-sota-triviaqa.png"></p>
 <p>On TriviaQA GPT3’s performance grows smoothly with model size, suggesting that language models continue to absorb knowledge as their capacity increases. One-shot and few-shot performance make significant gains over zero-shot behavior, matching and exceeding the performance of the SOTA fine-tuned open-domain model, RAG.</p>
+<p>This is exciting and all, but I should note that this not always the case and you need to be aware when a fine-tuned model trained on full training data will be better in your situation. As we can see in a recent <a href="https://arxiv.org/abs/2109.02555">paper</a>, GPT-3 does not mean the end of fine-tuned models:</p>
+<blockquote>
+<p>We investigated the performance of two powerful transformer language models, i.e. GPT-3 and BioBERT, in few-shot settings on various biomedical NLP tasks. The experimental results showed that, to a great extent, both the models underperform a language model fine-tuned on the full training data. Although GPT-3 had already achieved near state-of-the-art results in few-shot knowledge transfer on open-domain NLP tasks, it could not perform as effectively as BioBERT, which is orders of magnitude smaller than GPT-3.</p>
+</blockquote>
+<p>That said, GPT-3 was created to be as good as possible to a whole variety of tasks with no fine-tuning, and it did not fall short of that.</p>
 <h3 id="Into-Forecasting?">
 <a class="anchor" href="#Into-Forecasting?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Into Forecasting?<a class="anchor-link" href="#Into-Forecasting?"> </a>
 </h3>
 <p>Elicit has a feature called <a href="https://forecast.elicit.org/binary?binaryQuestions.sortBy=popularity&amp;limit=20&amp;offset=0&amp;predictors=community">Elicit Forecast</a> which is hidden from the main website, but they go into a bit of detail about how it works in the video below. For any aspiring superforecaster out there, this could be a great tool.
-
 </p>
 <center>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/watch?v=eIxoj46UibY" frameborder="0" allowfullscreen=""></iframe>
