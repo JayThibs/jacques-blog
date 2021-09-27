@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How to Connect to Colab from Local VSCode | Jacques Thibodeau</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="How to Connect to Colab from Local VSCode" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learn about building valuable AI solutions efficiently." />
+<meta property="og:description" content="Learn about building valuable AI solutions efficiently." />
+<link rel="canonical" href="https://jacquesthibodeau.com/deep-learning-setup/vscode/google-colab/2021/09/27/connect-to-colab-from-local-vscode.html" />
+<meta property="og:url" content="https://jacquesthibodeau.com/deep-learning-setup/vscode/google-colab/2021/09/27/connect-to-colab-from-local-vscode.html" />
+<meta property="og:site_name" content="Jacques Thibodeau" />
+<meta property="og:image" content="https://jacquesthibodeau.com/images/vscode-colab.jpeg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-09-27T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-09-27T00:00:00-05:00","url":"https://jacquesthibodeau.com/deep-learning-setup/vscode/google-colab/2021/09/27/connect-to-colab-from-local-vscode.html","@type":"BlogPosting","image":"https://jacquesthibodeau.com/images/vscode-colab.jpeg","headline":"How to Connect to Colab from Local VSCode","dateModified":"2021-09-27T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://jacquesthibodeau.com/deep-learning-setup/vscode/google-colab/2021/09/27/connect-to-colab-from-local-vscode.html"},"description":"Learn about building valuable AI solutions efficiently.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://jacquesthibodeau.com/feed.xml" title="Jacques Thibodeau" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YKD77Q10B0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YKD77Q10B0');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Jacques Thibodeau</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How to Connect to Colab from Local VSCode</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-09-27T00:00:00-05:00" itemprop="datePublished">
+        Sep 27, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#deep-learning-setup">deep-learning-setup</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#vscode">vscode</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#google-colab">google-colab</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/JayThibs/jacques-blog/tree/master/_notebooks/2021-09-27-connect-to-colab-from-local-vscode.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/JayThibs/jacques-blog/master?filepath=_notebooks%2F2021-09-27-connect-to-colab-from-local-vscode.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/JayThibs/jacques-blog/blob/master/_notebooks/2021-09-27-connect-to-colab-from-local-vscode.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#What-is-colab-ssh?">What is colab-ssh? </a></li>
+<li class="toc-entry toc-h2"><a href="#Code-we-need-to-run-in-Colab">Code we need to run in Colab </a></li>
+<li class="toc-entry toc-h2"><a href="#Addtional-Tips-to-Get-Started-Quickly">Addtional Tips to Get Started Quickly </a></li>
+<li class="toc-entry toc-h2"><a href="#Troubleshooting">Troubleshooting </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#You-are-Asked-for-Username-and-Password">You are Asked for Username and Password </a></li>
+<li class="toc-entry toc-h3"><a href="#If-you-get:-"Could-not-establish-connection-to..."">If you get: &quot;Could not establish connection to...&quot; </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-09-27-connect-to-colab-from-local-vscode.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="What-is-colab-ssh?">
+<a class="anchor" href="#What-is-colab-ssh?" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is colab-ssh?<a class="anchor-link" href="#What-is-colab-ssh?"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We'll be using the package called <code>colab-ssh</code>. It's a package that uses either Cloudflare or Ngrok to connect to a Colab instance.</p>
+<p>This is NOT the same as using Codespaces in your browser, like the approach taken with <code>colabcode</code>. For now, I much prefer using <code>colab-ssh</code> because it allows me to use a local VSCode rather than one in the browser.</p>
+<p>Now, let's get started. First we need to run code in Colab.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Code-we-need-to-run-in-Colab">
+<a class="anchor" href="#Code-we-need-to-run-in-Colab" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code we need to run in Colab<a class="anchor-link" href="#Code-we-need-to-run-in-Colab"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First we can mount our Google Drive so that we have access files or data that we need:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s2">"/content/drive"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This part is optional, but you can access a .env file in your Google Drive to access a <code>PASSWORD</code> and <code>GITHUB_ACCESS_TOKEN</code>:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install python-dotenv --quiet
+<span class="kn">import</span> <span class="nn">dotenv</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">dotenv</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'/content/drive/MyDrive/vscode-ssh'</span><span class="p">,</span> <span class="s1">'.env'</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">'PASSWORD'</span><span class="p">)</span>
+<span class="n">github_access_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">'GITHUB_ACCESS_TOKEN'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here we will add the url to the github repo we would like to work on:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">git_repo</span> <span class="o">=</span> <span class="s1">'&lt;link_to_git_repo&gt;'</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can install <code>colab-ssh</code> and import it:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install colab_ssh --upgrade --quiet
+<span class="kn">from</span> <span class="nn">colab_ssh</span> <span class="kn">import</span> <span class="n">launch_ssh_cloudflared</span><span class="p">,</span> <span class="n">init_git_cloudflared</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Finally, we create the ssh connection and also add our github repo:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">launch_ssh_cloudflared</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+<span class="n">init_git_cloudflared</span><span class="p">(</span><span class="n">repository_url</span><span class="o">=</span><span class="n">git_repo</span> <span class="o">+</span> <span class="s2">".git"</span><span class="p">,</span>
+         <span class="n">personal_token</span><span class="o">=</span><span class="n">github_access_token</span><span class="p">,</span> 
+         <span class="n">branch</span><span class="o">=</span><span class="s2">"main"</span><span class="p">,</span>
+         <span class="n">email</span><span class="o">=</span><span class="s2">"&lt;email_for_github&gt;"</span><span class="p">,</span>
+         <span class="n">username</span><span class="o">=</span><span class="s2">"&lt;github_username&gt;"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After that, you will get the following output:</p>
+<p><img src="https://raw.githubusercontent.com/JayThibs/jacques-blog/master/images/colab-ssh-output.png" alt="colab-ssh-output"></p>
+<p>As it says in "Client machine configuration", you will need to download "Cloudflared (Argo Tunnel)" for your OS. I use Mac so that's the one I downloaded. I downloaded the latest version instead of using <code>brew install</code> since that was faster.</p>
+<p>Anyways, go <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation">here</a> and download the binary. Then, untar the file (or execute the .exe?) and then place the <code>cloudflared</code> file in whatever local path you prefer.</p>
+<p>Download Remote - SSH: go into VSCode and go to Extensions (CTRL+SHIFT+P), and search and click on "Install Extension". Then, in Extensions, search and download "Remote - SSH".</p>
+<p>Now that we have Remote - SSH, go into Command Palette (CTRL+SHIFT+P), and search and click on "Remote - SSH: Open SSH Configuration File". This file is located at <code>~/.ssh/config</code>. Go to that file and paste the following:</p>
+
+<pre><code>Host *.trycloudflare.com
+    HostName %h
+    User root
+    Port 22
+    ProxyCommand &lt;PUT_THE_ABSOLUTE_CLOUDFLARE_PATH_HERE&gt; access ssh --hostname %h</code></pre>
+<p>I'm assuming the port is 22 for everyone. If you have a different port, you can change it based on the output you received.</p>
+<p>Now, save the config file, copy the "VSCode Remote SSH" hostname from the Colab output, and paste it into the text box after clicking on "Remote - SSH: Connect to Host...".</p>
+<p>There should be a new window that opens up.</p>
+<p>Click continue when a pop-up about a fingerprint appears and then type in the password you passed in to <code>launch_ssh_cloudflared</code>. You are now fully connected via ssh!</p>
+<p>You can now access your GitHub repository via "Open Folder" in Explorer. I have not figured out how to changed the repository location yet, but for now, you will need to click on <code>..</code> to exit /root/ and then click on <code>content</code> and your repository should be there.</p>
+<p>You will get some cloudflared files added to the root of your repository, you can add them to your .gitignore file.</p>
+<h2 id="Addtional-Tips-to-Get-Started-Quickly">
+<a class="anchor" href="#Addtional-Tips-to-Get-Started-Quickly" aria-hidden="true"><span class="octicon octicon-link"></span></a>Addtional Tips to Get Started Quickly<a class="anchor-link" href="#Addtional-Tips-to-Get-Started-Quickly"> </a>
+</h2>
+<p>Once you've set things up, you just need to click Run All in Colab and it goes pretty fast. However, you will still need to reinstall all packages everytime you create a new connection since Colab instances are ephemeral.</p>
+<p>I suggest you either create a <code>requirements.txt</code> file, <code>environment.yml</code> file, or you use a package like <code>poetry</code> to get up and running quickly.</p>
+<p>In my case, I create a Makefile for every project and then I simply need to enter <code>make poetry</code> in the terminal. To create a Makefile, simply create a file called <code>Makefile</code> in your project directory. Then, in the Makefile, you can add the following (or whatever installation commands you want for your specific dependency manager):</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">poetry</span><span class="p">:</span>
+	<span class="n">pip</span> <span class="n">install</span> <span class="n">poetry</span>
+	<span class="n">poetry</span> <span class="n">install</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Of course, you can use whatever package manager you prefer.</p>
+<p>And that's it! You are now ready to start coding!</p>
+<p>Now, for a little bit of troubleshooting in case you get an error.</p>
+<h2 id="Troubleshooting">
+<a class="anchor" href="#Troubleshooting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Troubleshooting<a class="anchor-link" href="#Troubleshooting"> </a>
+</h2>
+<h3 id="You-are-Asked-for-Username-and-Password">
+<a class="anchor" href="#You-are-Asked-for-Username-and-Password" aria-hidden="true"><span class="octicon octicon-link"></span></a>You are Asked for Username and Password<a class="anchor-link" href="#You-are-Asked-for-Username-and-Password"> </a>
+</h3>
+<p>If you are asked for a username and password after launching the SSH connection, that means you are not passing in your GitHub personal access token into <code>init_git_cloudflared</code>. Make sure to do that.</p>
+<p>You can setup your GitHub personal access token by clicking on your icon on the top right on GitHub, clicking on "Settings", scroll down and click on "Developer settings", and then clicking on "Personal Access Tokens". Generate a new token and use it in <code>init_git_cloudflared</code>.</p>
+<h3 id='If-you-get:-"Could-not-establish-connection-to..."'>
+<a class="anchor" href="#If-you-get:-" could-not-establish-connection-to... aria-hidden="true"><span class="octicon octicon-link"></span></a>If you get: "Could not establish connection to..."<a class="anchor-link" href="#If-you-get:-%22Could-not-establish-connection-to...%22"> </a>
+</h3>
+<p>This could mean a few things, so I'll go over the ones I encountered:</p>
+<ol>
+<li>Your Remote - SSH config file is not correct.</li>
+</ol>
+<p>Go to "Remote - SSH: Settings" and make sure that you are using the correct config file like the one below:</p>
+<p><img src="https://raw.githubusercontent.com/JayThibs/jacques-blog/master/images/remote-ssh-settings-config.png" alt="remote-ssh-settings-config"></p>
+<ol>
+<li>Colab is still running <code>init_git_cloudflared</code> because you did not pass it a valid personal access token.</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="JayThibs/jacques-blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/deep-learning-setup/vscode/google-colab/2021/09/27/connect-to-colab-from-local-vscode.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Learn about building valuable AI solutions efficiently.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/JayThibs" title="JayThibs"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/JacquesThibs" title="JacquesThibs"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
