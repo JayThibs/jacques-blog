@@ -369,7 +369,7 @@ window.onload = wrap_img;
 </h3>
 <p>Once you've set things up, you just need to click Run All in Colab and it goes pretty fast. However, you will still need to reinstall all packages every time you create a new connection since Colab instances are ephemeral.</p>
 <p>I suggest you either create a <code>requirements.txt</code> file, <code>environment.yml</code> file, or you use a package like <code>poetry</code> to get up and running quickly.</p>
-<p>Note for Conda: you need to run some extra code in colab in order to get access to conda in Colab. Follow the tutorial <a href="https://towardsdatascience.com/conda-google-colab-75f7c867a522">here</a> if you really want to use conda. Personally, I would recommend against it since it takes longer to install. Try using pip, pip-tools or poetry instead.</p>
+<p>Note for Conda: you need to run some extra code in Colab in order to get access to Conda in Colab. Follow the tutorial <a href="https://towardsdatascience.com/conda-google-colab-75f7c867a522">here</a> if you really want to use Conda. Personally, I would recommend against it since it takes longer to install. Try using pip, pip-tools or poetry instead.</p>
 <p>In my case, I create a Makefile for every project and then I simply need to enter <code>make poetry</code> in the terminal. To create a Makefile, simply create a file called <code>Makefile</code> in your project directory. Then, in the Makefile, you can add the following (or whatever installation commands you want for your specific dependency manager):</p>
 
 </div>
@@ -424,14 +424,10 @@ window.onload = wrap_img;
 <a class="anchor" href="#If-you-get:-" could-not-establish-connection-to... aria-hidden="true"><span class="octicon octicon-link"></span></a>If you get: "Could not establish connection to..."<a class="anchor-link" href="#If-you-get:-%22Could-not-establish-connection-to...%22"> </a>
 </h3>
 <p>This could mean a few things, so I'll go over the ones I encountered:</p>
-<ol>
-<li>Your Remote - SSH config file is not correct.</li>
-</ol>
+<p>1: Your Remote - SSH config file is not correct.</p>
 <p>Go to "Remote - SSH: Settings" and make sure that you are using the correct config file like the one below:</p>
 <p><img src="https://raw.githubusercontent.com/JayThibs/jacques-blog/master/images/remote-ssh-settings-config.png" alt="remote-ssh-settings-config"></p>
-<ol>
-<li>Colab is still running <code>init_git_cloudflared</code> because you did not pass it a valid personal access token.</li>
-</ol>
+<p>2:  Colab is still running <code>init_git_cloudflared</code> because you did not pass it a valid personal access token.</p>
 <h3 id="No-Access-to-GPU?">
 <a class="anchor" href="#No-Access-to-GPU?" aria-hidden="true"><span class="octicon octicon-link"></span></a>No Access to GPU?<a class="anchor-link" href="#No-Access-to-GPU?"> </a>
 </h3>
